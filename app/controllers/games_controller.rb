@@ -1,6 +1,5 @@
 class GamesController < ApplicationController
   before_action :set_game, only: [:show, :edit, :update, :destroy]
-
   # GET /games
   # GET /games.json
   def index
@@ -24,7 +23,19 @@ class GamesController < ApplicationController
   # POST /games
   # POST /games.json
   def create
-    @game = Game.new(game_params)
+    @game = Game.new(game_params.except(:archive))
+    archive = game_params[:archive]
+
+    name = archive.original_filename
+    directory = "public/games/upload"
+    path = File.join(directory, name.split('.').first)
+    unless File.exists?(path)
+      Dir.mkdir(path)
+    end
+    @game.filepath = path 
+    path = File.join(path, name)
+
+    File.open(path, "wb") { |f| f.write(archive.read) }
 
     respond_to do |format|
       if @game.save
@@ -62,13 +73,14 @@ class GamesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_game
-      @game = Game.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def game_params
-      params.require(:game).permit(:gameName, :filepath)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_game
+    @game = Game.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def game_params
+    params.require(:game).permit(:gameName, :filepath, :archive)
+  end
 end
