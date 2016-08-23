@@ -3,7 +3,6 @@ class MapTilesController < ApplicationController
   
   
   def get_tile
-    console
     @image = RestClient.get("https://b.tile.openstreetmap.org/10/909/403.png").body()
     render xml: @image, content_type: 'image/png'
   end
