@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   resources :games
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  resources :map_tiles
+  #match '/map_tiles' => 'map_tiles#show' , :via => :get
+  match '/map_tiles/' => 'map_tiles#get_tile' , :via => :get
+
 end
