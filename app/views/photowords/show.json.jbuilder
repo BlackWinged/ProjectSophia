@@ -1,0 +1,1 @@
+json.partial! "photowords/photoword", photoword: @photoword

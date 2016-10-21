@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Caption,:</strong>
+  <%= @photoword.caption %>
+</p>
+
+<p>
+  <strong>Path:</strong>
+  <%= @photoword.path %>
+</p>
+
+<%= link_to 'Edit', edit_photoword_path(@photoword) %> |
+<%= link_to 'Back', photowords_path %>

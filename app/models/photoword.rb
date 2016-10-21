@@ -1,0 +1,2 @@
+class Photoword < ApplicationRecord
+end

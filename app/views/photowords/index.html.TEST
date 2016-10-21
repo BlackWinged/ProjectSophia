@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Photowords</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Caption,</th>
+      <th>Path</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @photowords.each do |photoword| %>
+      <tr>
+        <td><%= photoword.caption %></td>
+        <td><%= photoword.path %></td>
+        <td><%= link_to 'Show', photoword %></td>
+        <td><%= link_to 'Edit', edit_photoword_path(photoword) %></td>
+        <td><%= link_to 'Destroy', photoword, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Photoword', new_photoword_path %>

@@ -1,0 +1,27 @@
+<%= form_for(photoword) do |f| %>
+  <% if photoword.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(photoword.errors.count, "error") %> prohibited this photoword from being saved:</h2>
+
+      <ul>
+      <% photoword.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :caption %>
+    <%= f.text_field :caption %>
+  </div>
+
+  <div class="field">
+    <%= f.label :path %>
+    <%= f.text_field :path %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

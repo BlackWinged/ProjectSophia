@@ -1,14 +1,64 @@
 class MapTilesController < ApplicationController
   def get_tile
-    #11/38.0008/138.3677
     map_params
     lat = params[:lat]
     long = params[:long]
     zoom = params[:zoom]
-    urlString = "https://b.tile.openstreetmap.org"
-    urlString = urlString + calculate_tile_name(lat.to_f, long.to_f, zoom.to_i)
-    @image = RestClient.get(urlString).body()
-    render xml: @image, content_type: 'image/png'
+    sizeOfBounds = params[:bbox]
+    #urlString = urlString + calculate_tile_name(lat.to_f, long.to_f, zoom.to_i)
+    imageArray = []
+    getTilesInBbox_OSM(lat, long, imageArray, zoom, sizeOfBounds)
+    respond_to do |format|
+      format.html {render xml: @image, content_type: 'image/png', status: :ok}
+      format.json {render json: imageArray}
+    end
+  end
+
+  def getTilesInBbox_OSM(lat, long, imageArray, zoom, sizeOfBounds)
+    coordinates = get_tile_number(lat.to_f,long.to_f, zoom.to_i)
+    for i in coordinates[:x].to_i-(sizeOfBounds).to_i..coordinates[:x].to_i+(sizeOfBounds).to_i
+      for j in coordinates[:y].to_i-(sizeOfBounds).to_i..coordinates[:y].to_i+(sizeOfBounds).to_i
+        imageObject = {}
+        imageObject[:filepath] = checkIfOnDisk(zoom, i, j).sub("public/", "")
+        imageObject[:cood] = get_lat_lng_for_number(i, j, zoom.to_i)
+        imageArray.push(imageObject)
+      end
+    end
+  end
+  
+  def fireRequestForTile(zoom, x, y)
+        urlString = "https://b.tile.openstreetmap.org"
+        urlString = urlString + "/" + zoom + "/" + x.to_s + "/" + y.to_s + ".png"
+        body = RestClient.get(urlString).body()
+        return saveToDisk(body, zoom, x, y)
+  end
+
+  #Needs checking if file is too old
+  #Also, action job to check if file size is getting out of hand
+  def checkIfOnDisk(zoom, x, y)
+    directory = "public/tiles/"
+    directory = directory + zoom.to_s
+    directory = directory + "/" + x.to_s + "-" + y.to_s + ".png"
+    if File.exists?(directory)
+      return directory
+    else
+      fireRequestForTile(zoom, x, y)
+    end
+  end
+
+  def saveToDisk(data, zoom, x, y)
+    directory = "public/tiles/"
+    unless File.exists?(directory)
+      Dir.mkdir(directory)
+    end
+    directory = directory + zoom.to_s
+    unless File.exists?(directory)
+      Dir.mkdir(directory)
+    end
+    directory = directory + "/" + x.to_s + "-" + y.to_s + ".png"
+
+    File.open(directory, "wb") { |f| f.write(data) }
+    return directory
   end
 
   def calculate_tile_name (lat_deg, lng_deg, zoom)
