@@ -1,0 +1,1 @@
+json.partial! "memory_logs/memory_log", memory_log: @memory_log

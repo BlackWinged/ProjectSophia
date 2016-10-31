@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Timestamp:</strong>
+  <%= @memory_log.timestamp %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @memory_log.description %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @memory_log.user %>
+</p>
+
+<%= link_to 'Edit', edit_memory_log_path(@memory_log) %> |
+<%= link_to 'Back', memory_logs_path %>
