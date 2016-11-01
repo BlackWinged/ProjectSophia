@@ -1,5 +1,32 @@
 <p id="notice"><%= notice %></p>
 
+<h1>Up for review</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Timestamp</th>
+      <th>Description</th>
+      <th>User</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @active_logs.each do |memory_log| %>
+      <tr>
+        <td><%= memory_log.timestamp %></td>
+        <td><%= memory_log.description %></td>
+        <td><%= memory_log.user %></td>
+        <td><%= link_to 'Show', memory_log %></td>
+        <td><%= link_to 'Finished learning', resetTimestamp_memory_log_url(memory_log), data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+
 <h1>Memory Logs</h1>
 
 <table>
@@ -25,6 +52,7 @@
     <% end %>
   </tbody>
 </table>
+
 
 <br>
 

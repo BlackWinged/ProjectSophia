@@ -15,5 +15,10 @@
   <%= @memory_log.user %>
 </p>
 
+<p>
+  <strong>Current interval</strong>
+  <%= @memory_log.time_to_next_review %>
+</p>
+
 <%= link_to 'Edit', edit_memory_log_path(@memory_log) %> |
 <%= link_to 'Back', memory_logs_path %>

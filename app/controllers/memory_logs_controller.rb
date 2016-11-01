@@ -9,6 +9,23 @@ class MemoryLogsController < ApplicationController
       redirect_to users_login_path 
     end 
     @memory_logs = MemoryLog.where(user_id: currUserId)
+    @active_logs = []
+    @memory_logs.each do |f|
+      currentTime = Time.now
+      diff = TimeDifference.between(f.timestamp, currentTime).in_days
+      if diff >= f.time_to_next_review
+        @active_logs.push(f) 
+      end
+    end
+
+  end
+
+  def resetTimestamp
+    @memory_log = MemoryLog.find(params[:id])
+    @memory_log.timestamp = Time.now
+    @memory_log.time_to_next_review *= 5 
+    @memory_log.save
+    redirect_to memory_logs_path
   end
 
   # GET /memory_logs/1
@@ -29,6 +46,8 @@ class MemoryLogsController < ApplicationController
   # POST /memory_logs.json
   def create
     @memory_log = MemoryLog.new(memory_log_params)
+    @memory_log.user = User.find(session[:currentUser])
+    @memory_log.time_to_next_review = 1
 
     respond_to do |format|
       if @memory_log.save

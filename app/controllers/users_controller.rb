@@ -40,6 +40,11 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     @user = User.new(user_params)
+    newSettings = UserSetting.new()
+    newSettings.baseInterval = 1
+    newSettings.increaseMultiplier = 5  
+    @user.user_setting = newSettings
+    byebug
 
     respond_to do |format|
       if @user.save

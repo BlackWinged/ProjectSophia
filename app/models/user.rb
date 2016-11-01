@@ -1,3 +1,3 @@
 class User < ApplicationRecord
-    has_one :user_setting
+    belongs_to :user_setting
 end

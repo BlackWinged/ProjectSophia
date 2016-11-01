@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  resources :memory_logs do
+    member do
+      get 'resetTimestamp'
+    end
+  end
   resources :user_settings
   get 'users/login', to: "users#login"
   post 'users/login', to: "users#checkLogin"
