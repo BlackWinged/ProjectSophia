@@ -44,7 +44,6 @@ class UsersController < ApplicationController
     newSettings.baseInterval = 1
     newSettings.increaseMultiplier = 5  
     @user.user_setting = newSettings
-    byebug
 
     respond_to do |format|
       if @user.save
