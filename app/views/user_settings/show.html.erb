@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Baseinterval:</strong>
+  <%= @user_setting.baseInterval %>
+</p>
+
+<p>
+  <strong>Increasemultiplier:</strong>
+  <%= @user_setting.increaseMultiplier %>
+</p>
+
+<p>
+  <strong>Integer:</strong>
+  <%= @user_setting.integer %>
+</p>
+
+<%= link_to 'Edit', edit_user_setting_path(@user_setting) %> |
+<%= link_to 'Back', user_settings_path %>

@@ -4,7 +4,11 @@ class MemoryLogsController < ApplicationController
   # GET /memory_logs
   # GET /memory_logs.json
   def index
-    @memory_logs = MemoryLog.all
+    currUserId = session[:currentUser]
+    if !currUserId
+      redirect_to users_login_path 
+    end 
+    @memory_logs = MemoryLog.where(user_id: currUserId)
   end
 
   # GET /memory_logs/1

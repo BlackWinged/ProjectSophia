@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  baseInterval: 1
+  increaseMultiplier: MyString
+  integer: MyString
+
+two:
+  baseInterval: 1
+  increaseMultiplier: MyString
+  integer: MyString

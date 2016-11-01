@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :user_settings
   get 'users/login', to: "users#login"
   post 'users/login', to: "users#checkLogin"
   resources :memory_logs

@@ -26,7 +26,13 @@ class UsersController < ApplicationController
   end
 
   def checkLogin
-    redirect_to index
+    currUser = User.find_by(username: params[:user][:username].downcase)
+    if currUser && currUser.password == params[:user][:password]
+      session[:currentUser] = currUser.id
+      redirect_to currUser
+      return
+    end
+    redirect_to User
   end
 
 
